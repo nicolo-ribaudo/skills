@@ -13,6 +13,7 @@ Node.js (ESM), with no dependencies besides an engine262 checkout for the engine
 | `engine262-module-runner.mjs` | **modules only** | Runs a module graph (`main.mjs` + imports) on an engine262 checkout |
 | `run-case.mjs` | **modules only** | CLI around the module runner, for a single case |
 | `new-engine262-worktree.sh` | engine262 | New worktree + build for an experiment (never edit a shared checkout) |
+| `run-engines.sh` | **scripts only** | Runs one script on every installed engine (jsvu shells, node, deno, bun), optionally per time zone |
 
 Put all work in the repo's `.tmp/fix-ecma262-bug/<issue-or-task>/`, and make sure `.tmp/.gitignore`
 contains `*`.
@@ -127,6 +128,24 @@ generated inputs that a fresh worktree lacks, and builds it.
 Transcribe the spec change there behind an env switch, with each spec step as a comment.
 Commit it as `SCRATCH: …` and never touch the shared baseline worktree. When done, remove it
 with `git -C <baseline> worktree remove --force ../my-experiment`.
+
+## Real engines
+
+```sh
+run-engines.sh [--tz <zone>]... <script.js>
+```
+
+Runs a (non-module) script on the jsvu shells in `$JSVU_BIN` (default `~/.jsvu/bin`: v8, sm, jsc,
+xs, hermes), then node, deno and bun; engines that aren't installed are skipped. Each run is
+preceded by `## <engine>`, or `## <engine> TZ=<zone>` when `--tz` is given. Without `--tz` the
+engines run once with the inherited environment; each `--tz` adds a run of all engines with that
+`TZ`, e.g. `--tz UTC --tz Etc/GMT-1` (`Etc/GMT-1` is UTC+01:00). Every run is killed after
+`$RUN_ENGINES_TIMEOUT` seconds (default 30).
+
+The script must print with `print` when it exists, else `console.log`, and should print one
+`<case> => <result>` line per case, catching exceptions, so the outputs can be grouped by result
+across engines. Use it to check what implementations do before choosing between two fixes (an
+editorial fix must not change what all engines agree on).
 
 ## Contributing back
 

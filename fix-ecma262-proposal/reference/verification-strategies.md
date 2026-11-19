@@ -9,6 +9,7 @@ Use **one or more**. The harness is in `../ecma262-review-tools/`; see its READM
 | syntax, early errors, modules, core semantics (anything engine-internal) | **engine262**: transcribe the change into a worktree, behind an env switch |
 | only built-in APIs (new methods, objects, options) | **a polyfill**: implement the spec steps in JS as a `fn` variant |
 | either, but the bug is in one or a few algorithms | **an isolated transcription**: the algorithm(s) as plain JS over a small data model, for fast and targeted fuzzing |
+| already-shipped behaviour, when choosing between fixes or deciding editorial vs normative | **real engines**: `run-engines.sh`, compared with the transcription's results |
 
 The variants usually compared are:
 - `base`: the current spec;

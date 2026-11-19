@@ -122,12 +122,13 @@ Structure:
 # Review notes: PR #<number>: <title>
 
 - **Author / tag**: <author> · <Normative|Editorial|Markup|Meta>: <is the tag right?>
+- **Reviewed at**: PR head `<short sha>` (line links below point at this commit's checkout)
 - **Summary**: <1–2 sentences on what the PR does>
 - **Overall**: <your read: looks good / needs work / has a normative concern / etc.>
 - **Existing editor feedback (not repeated below)**: <who raised what, briefly, or "none">
 
 ## Possible bugs / correctness
-<Each: location (spec.html:line or clause), what's wrong, why, confidence. Empty if none.>
+<Each: location (a clickable link, see below), what's wrong, why, confidence. Empty if none.>
 
 ## Editorial / conventions
 <Convention deviations with the specific rule. Empty if none.>
@@ -144,6 +145,27 @@ Structure:
 
 Each finding: **location → observation → why it matters → confidence (high/med/low)**. If a
 section is empty, say "None found" rather than padding.
+
+### Clickable locations
+
+Every reference to a line in a repo file must be a Markdown link that VS Code opens at that line
+(Ctrl+click in the editor, or click in the Markdown preview):
+
+- Use a path **relative to the notes file**. The notes live in `.tmp/review-ecma262-pr/`, so the
+  repo root is `../../`: `[spec.html:34400](../../spec.html#L34400)`,
+  `[abstractops.emu:2025](../../temporal/abstractops.emu#L2025)`.
+- Add the line as a `#L<line>` fragment. For a range (`1742–1744`), keep the range in the link text
+  and link to the first line.
+- Code formatting goes *inside* the link text: ``[`timezone.emu:43`](../../temporal/timezone.emu#L43)``.
+  A link inside a backtick span doesn't render.
+- Short references that omit the file (`:459`) also get a link. Resolve their file from context and
+  check it against the actual line: the nearest file named earlier in the line is often wrong
+  (e.g. GetPossibleEpochNanoseconds is in timezone.emu even when the sentence mentions abstractops.emu).
+- Link only files in the checked-out repo. External references (upstream proposal files, ECMA-402,
+  test262) stay plain text or become full URLs.
+- Line numbers are those of the PR head you reviewed (record it under **Reviewed at**). Before
+  finishing, check every link: the target file exists and the line exists and shows the cited text.
+  A quick check is to extract each `](../../<path>#L<n>)` and print line `<n>` of `<path>`.
 
 ## Finish
 
