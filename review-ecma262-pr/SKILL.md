@@ -1,6 +1,6 @@
 ---
 name: review-ecma262-pr
-description: Review a tc39/ecma262 pull request for editorial issues and possible bugs, from the perspective of a spec editor. Gathers the PR diff, existing editor reviews, and checks consistency with the rest of spec.html, then writes a .claude/.reviews/pr-<number>-<date>.md notes file for the user to manually go through. Use when the user asks to review an ecma262 PR, check a PR for editorial issues, or prepare review notes for a pull request. Never posts anything to GitHub.
+description: Review a tc39/ecma262 pull request for editorial issues and possible bugs, from the perspective of a spec editor. Gathers the PR diff, existing editor reviews, and checks consistency with the rest of spec.html, then writes a .tmp/review-ecma262-pr/pr-<number>-<date>.md notes file for the user to manually go through. Use when the user asks to review an ecma262 PR, check a PR for editorial issues, or prepare review notes for a pull request. Never posts anything to GitHub.
 ---
 
 # Reviewing an ecma262 pull request
@@ -14,7 +14,7 @@ review, comment, or approval on GitHub. The editor reads your notes and decides 
 - **Ask focus first (Step 0) before any tool call.** The very first action is asking the user
   what to focus on: not fetching the PR, not reading files.
 - **Never post.** No `gh pr review`, no `gh pr comment`, no `gh api ... POST`. Read-only `gh`
-  only. The single deliverable is `.claude/.reviews/pr-<number>-<date>.md`.
+  only. The single deliverable is `.tmp/review-ecma262-pr/pr-<number>-<date>.md`.
 - **Don't repeat existing feedback.** Other editors often have pending reviews/comments. Read
   them first and skip anything already raised (but note if you'd extend or disagree with a point).
 - **Cite the spec.** Every finding points at a concrete location: a `spec.html` line, a clause id,
